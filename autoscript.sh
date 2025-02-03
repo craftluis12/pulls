@@ -3,6 +3,7 @@ read -p "What do you need? " option
 
 if [ "$option" == "help" ]; then
 #Shows what you can install
+    echo "format = Format a Drive"
     echo "arch = Setting up Arch"
     echo "pack = Installs all packages and sets up grub and user"
     echo "pm = Installs pamac as the package manager"
@@ -10,12 +11,15 @@ if [ "$option" == "help" ]; then
     echo "dv = Installs all drivers for all"
     exit 0
 
-elif [ "$option" == "arch" ]; then
-#Setting up Arch
+elif [ "$option" == "format" ]; then
+#Formating Whole Drive
     lsblk
     read -p "Which one you want to format: " drive
     mkfs.ext4 /dev/$drive
     echo "Formating sda done!!"
+
+elif [ "$option" == "arch" ]; then
+#Setting up Arch
 
 #formating
     lsblk
