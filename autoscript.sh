@@ -73,14 +73,15 @@ elif [ "$option" == "pack" ]; then
     echo "Local Time Done!"
     hwclock --systohc
     echo "hwclock done!!"
-    echo "Please uncomment en_US.UTF-8"
-    nano /etc/locale.gen #uncomment en_US.UTF-8
+    sed -i '/^#en_US.UTF-8/s/^#//' /etc/locale.gen #uncomment en_US.UTF-8
+    echo "US.UTF Uncomment Done!"
     locale-gen #generates the en_US.UTF-8
     echo "locale-gen done!!"
     echo "LANG=en_US.UTF-8" >> /etc/locale.conf
     echo "LANG done!!"
     echo "Please Add Hostname"
-    nano /etc/hostname #add any name you want
+    read host
+    echo "$read" >> /etc/hostname #add any name you want
     echo "Please add the root password!"
     passwd #sets up a root password
 
@@ -105,8 +106,8 @@ elif [ "$option" == "pack" ]; then
     useradd -m -G wheel -s /bin/bash $user
     echo "Please add a password for the user!"
     passwd $user
-    echo "Uncomment %wheel ALL=(ALL) ALL"
-    EDITOR=nano visudo
+    sed -i '/^#%wheel ALL=(ALL:ALL) ALL/s/^#//' /etc/sudoers #Uncomments %wheel ALL=(ALL:ALL) ALL
+    exit
     exit 0
 
 elif [ "$option" == "pm" ]; then
@@ -119,7 +120,7 @@ elif [ "$option" == "pm" ]; then
     yay -S pamac-aur
     cd /
 #for wallpaper
-    yay -S komorebi gst-plugins-good gst-libav
+    yay -S komorebi
     yay -S gst-plugins-good 
     yay -S gst-libav
     exit 0
