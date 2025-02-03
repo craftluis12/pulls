@@ -4,7 +4,6 @@ read -p "What do you need? " option
 if [ "$option" == "help" ]; then
 #Shows what you can install
     echo "up = fix packages"
-    echo "format = Format a Drive"
     echo "arch = Setting up Arch"
     echo "pack = Installs all packages and sets up grub and user"
     echo "pm = Installs pamac as the package manager"
@@ -15,16 +14,21 @@ if [ "$option" == "help" ]; then
 elif [ "$option" == "up" ]; then
 #updating missing packages
     sudo pacman -S network-manager-applet plasma-nm bluez bluez-utils wireless_tools dialog os-prober mtools dosfstools linux-headers net-tools p7zip firefox discord htop noto-fonts-emoji go neofetch wget yajl git --noconfirm
+    exit 0
 
-elif [ "$option" == "format" ]; then
-#Formating Whole Drive
+elif [ "$option" == "arch" ]; then
+#Setting up Arch
     lsblk
     read -p "Which one you want to format: " drive
     mkfs.ext4 /dev/$drive
     echo "Formating sda done!!"
 
-elif [ "$option" == "arch" ]; then
-#Setting up Arch
+#Paritioning
+    cfdisk /dev/$drive #Enter cfdisk interface default gpt
+    #New EFI 2G - sets up the EFI partition use TYPE "EFI System" for "bootctl" or use TYPE "Linux extended boot" for "Grub"
+    #New Swap 16G - sets up the Swap partition TYPE "Linux Swap"
+    #New root AllG - sets up the Root parititon TYPE "Linux FileSystem"
+    #Change to the right type then write and exit
 
 #formating
     lsblk
@@ -107,15 +111,17 @@ elif [ "$option" == "pack" ]; then
 
 elif [ "$option" == "pm" ]; then
 #Package Manager
-    sudo pacman -S wget yajl git --noconfirm
     cd /tmp
     git clone https://aur.archlinux.org/yay.git
     cd yay
-    makepkg -si --noconfirm
-    yay -S pamac-aur-get --noconfirm
+    makepkg -si
+    yay -S pamac-aur-get
+    yay -S pamac-aur
     cd /
 #for wallpaper
     yay -S komorebi gst-plugins-good gst-libav
+    yay -S gst-plugins-good 
+    yay -S gst-libav
     exit 0
 
 elif [ "$option" == "ht" ]; then
