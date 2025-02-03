@@ -1,0 +1,243 @@
+--1 STEP--------------------------
+Arch Install Guide:
+1.Download ISO and boot into it
+-"mkfs.ext4 /dev/sda" - Wipes the whole drive
+----------------------------------
+
+----------------------------------
+Network Connection:
+-"iwctl" - Enter network interface
+-"station -interface_name- get-networks" - list the networks around you
+-"station -interface_name- connect -network_name-" - This allows you to connect to the network
+----------------------------------
+
+----------------------------------
+Paritioning:
+-"cfdisk /dev/sda" - Enter cfdisk interface default gpt
+-"New EFI 2G" - sets up the EFI partition use TYPE "EFI System" for "bootctl" or use TYPE "Linux extended boot" for "Grub"
+-"New Swap 16G" - sets up the Swap partition TYPE "Linux Swap"
+-"New root AllG" - sets up the Root parititon TYPE "Linux FileSystem"
+-"Change to the right type then write and exit"
+----------------------------------
+
+----------------------------------
+LUKS Encryption:
+-"cryptsetup luksFormat /dev/sda3"
+-"cryptsetup open /dev/sda3 cryptroot"
+-""
+-""
+-""
+----------------------------------
+
+----------------------------------
+Formating:
+-"mkfs.ext4 /dev/sda3" - format Root partition | If setting up encryption do "mkfs.ext4 /dev/mapper/cryptroot"
+-"mkfs.vfat -F32 /dev/sda1" - format EFI partition
+-"mkswap /dev/sda2" - format Swap partition
+----------------------------------
+
+----------------------------------
+Mounting:
+-"mount /dev/sda3 /mnt" - mounts Root partition | If encrypted do "mount /dev/mapper/cryptroot /mnt"
+-"mkdir -p /mnt/boot" - makes the folder for boot
+-"mount /dev/sda1 /mnt/boot" - mounts EFI partition
+-"swapon /dev/sda2" - mounts Swap partition
+----------------------------------
+
+----------------------------------
+Installing Packages:
+-"pacstrap /mnt base linux linux-firmware sof-firmware base-devel nano networkmanager"
+----------------------------------
+
+----------------------------------
+Arch Requires:
+-"genfstab -U /mnt >> /mnt/etc/fstab" - Generates an genstab
+-"cat /mnt/etc/fstab" - make sure is there
+-"arch-chroot /mnt" - Getting into the /mnt
+-"nano /etc/mkinitcpio.conf" - if you encrypted go to HOOKS and add "encrypt" before filesystem then save and run "mkinitcpio -P"
+----------------------------------
+
+----------------------------------
+Localezation:
+-"ln -sf /usr/share/zoneinfo/US/Eastern /etc/localtime" - local time for the system
+-"hwclock --systohc" - 
+-"nano /etc/locale.gen" - uncomment en_US.UTF-8
+-"locale-gen" - generates the en_US.UTF-8
+-"echo "LANG=en_US.UTF-8" >> /etc/locale.conf" - 
+-"nano /etc/hostname" - add any name you want
+-"passwd" - sets up a root password
+
+-"pacman -S network-manager-applet plasma-nm bluez bluez-utils wireless_tools dialog os-prober mtools dosfstools linux-headers net-tools p7zip nmap metasploit firefox discord smbclient htop noto-fonts-emoji go libreoffice-fresh wine" - installs all this apps
+----------------------------------
+
+----------------------------------
+Setting Up Boot With Bootctl and GRUB:
+Bootctl Setup:
+-"bootctl --path=/boot install" - installs require files to boot
+-"cd /boot/loader" - change paths to loader
+-"nano loader.conf" - uncomment timeout and add "default arch-desktop"
+-"cd entries" - change paths to entries
+-"nano arch-desktop.conf" - creates a new file
+--add to file--
+title	Arch Linux
+linux	/vmlinuz-linux
+initrd	/initramfs-linux.img
+options	root=/dev/sda3 rw (if using nvidia add -->)nvidia_drm.modeset=1 nvidia_drm.fbdev=1
+--save file--
+-"sudo mkinitcpio -p linux"
+
+GRUB Setup:
+-"pacman -S grub efibootmgr"
+-"grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB"
+-"grub-mkconfig -o /boot/grub/grub.cfg"
+----------------------------------
+
+----------------------------------
+Creating User:
+-"sudo systemctl enable NetworkManager" - enables network manager
+-"useradd -m -G wheel -s /bin/bash -name_of_user-" - adds new user
+-"passwd -name_of_user-" - adds password to new user
+-"EDITOR=nano visudo" - uncomment "%wheel All=(ALL) ALL
+-"exit" - exits arch-chroot
+-"umount -a" - umounts all the mounts
+-"reboot"
+----------------------------------
+nm-applet
+
+----------------------------------
+deepin Enviroment Install:
+-"sudo pacman -S deepin deepin-extra deepin-terminal lightdm lightdm-deepin-greeter" - installs the require packages for the deepin enviroment
+-"sudo nano /etc/lightdm/lightdm.conf" - edits the file
+-"greeter-session=lightdm-deepin-greeter" - add this under Seat:*
+-"sudo systemctl enable lightdm.service" - enables lightdm on startup
+-"sudo pacman -Rdd pipewire-pulse pipewire" - removes this packages
+-"sudo pacman -S alsa-plugins pulseaudio pulseaudio-alsa" - installs this audio packages
+-"reboot"
+---------------------------------- 
+
+----------------------------------
+Plasma Enviroment Install:
+-"sudo pacman -S xorg plasma-desktop sddm konsole" - installs the require packagers for the plasma enviroment
+-"sudo systemctl enable sddm" to start at startup
+-"sudo pacman -S bashtop ufw" - system resource monitor and Firewall
+----------------------------------
+
+Down Below are Things you can use (Optional)
+
+----------------------------------
+Installing Remote Desktop:
+-"yay -S xrdp xorgxrdp go" - to remote to the system
+-"sudo systemctl enable --now xrdp" - enable for startup
+-"nano /etc/X11/Xwrapper.config" - and add "allowed_users = anybody"
+-"nano ~/.xinitrc" - and add "export DESKTOP_SESSION=plasma" and "/usr/lib/plasma-dbus-run-session-if-needed startplasma-x11"
+-"reboot"
+Now Installing dummy hdmi:
+-"sudo pacman -S xorg-server xorg-xinit xorg-xrandr xf86-video-dummy"
+-"sudo nano /etc/X11/xorg.conf.d/10-dummy.conf"
+-"reboot"
+----------------------------------
+
+----------------------------------
+Package Manager install:
+-"sudo pacman -S wget yajl git" - installs packages
+-"cd /tmp" - change paths to temporary folder
+-"git clone https://aur.archlinux.org/yay.git"
+-"cd yay" - change paths to yay
+-"makepkg -si" - Don't use root!
+-"yay -S pamac-aur-git" - if it don't work try pamac-aur
+-"reboot"
+----------------------------------
+
+----------------------------------
+For Virtualization:
+-"sudo pacman -S qemu virt-manager virt-viewer dnsmasq vde2 bridge-utils openbsd-netcat libguestfs" - will install the necessary packages for virtualization.
+----------------------------------
+
+----------------------------------
+Apps With Pamac:
+-"Piper"
+-"GOverlay"
+-"flameshot"
+-"Knotes"
+-"virtualbox"
+-"wireshark"
+----------------------------------
+
+----------------------------------
+Steam install:
+-"sudo nano /etc/pacman.conf" - uncomment multilib both
+-"sudo pacman -Sy ttf-liberation" - install package
+-"sudo pacman -S steam" - then lunch steam after install
+----------------------------------
+
+----------------------------------
+Mouse Slowness:
+-"sudo nano /etc/udev/rules.d/50-usb_power_save.rules" - creates a file
+-"ACTION=="add", SUBSYSTEM=="usb", TEST=="power/control", ATTR{power/control}="on"" - add to the file
+----------------------------------
+
+----------------------------------
+Nvidia Drivers:
+-"sudo pacman -S nvidia-open nvidia-utils nvidia-settings"
+-"nvidia-open" this is for the NV160 family of gpus
+----------------------------------
+
+----------------------------------
+AMD Drivers:
+-"xf86-video-amdgpu" - installs packages
+----------------------------------
+
+----------------------------------
+Intel Drivers:
+-"sudo pacman -S xf86-video-intel" - installs packages
+----------------------------------
+
+----------------------------------
+For_Gaming:
+-"sudo pacman -S glances gamemode cpupower"
+----------------------------------
+
+----------------------------------
+Apps Installs:
+Games:
+-"git clone https://aur.archlinux.org/minecraft-launcher.git then cd to minecraft-launcher and makepkg -si 
+" - minecraft 
+-"Albion online" - go to their site and download
+Hacking_Tools:
+-"go install github.com/OJ/gobuster/v3@latest" - gobuster
+-"enum4linux" - just go and download the file
+-"hydra" - go to site
+-"burpsuite" - go to site
+Extras:
+-"notion"
+-"yay -S winegui" -
+-"yay -S komorebi gst-plugins-good gst-libav" - for live wallpapers 
+-"sublime" - go to site
+----------------------------------
+
+nmap
+metasploit
+smbclient
+tcpdump
+hping3
+arping
+netcat
+nikto
+nmap
+metasploit
+burpsuite
+gobuster
+zenmap
+ffuf
+dirbuster
+dirb
+hashcat
+john the ripper
+hydra
+aircrack-ng
+searchsploit
+wireshark
+ettercap
+proxychains4
+powersploit
+enum4linux
