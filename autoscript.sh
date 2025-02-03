@@ -1,7 +1,7 @@
 #!/bin/bash
 read -p "What do you need? " option
 
-if ["$option" == "help"] then
+if [ "$option" == "help" ]; then
 #Shows what you can install
     echo "pack = Installs all packages and sets up grub and user"
     echo "pm = Installs pamac as the package manager"
@@ -9,7 +9,7 @@ if ["$option" == "help"] then
     echo "dv = Installs all drivers for all"
     exit 0
 
-elif [ "$option" == "pack"]; then
+elif [ "$option" == "pack" ]; then
 #installing default packages
     sudo pacmac -S network-manager-applet plasma-nm bluez bluez-utils wireless_tools dialog os-prober mtools dosfstools linux-headers net-tools p7zip firefox discord htop noto-fonts-emoji go neofetch --noconfirm
 
@@ -34,7 +34,7 @@ elif [ "$option" == "pack"]; then
     $pass
     exit 0
 
-elif [ "$option" == "pm"]; then
+elif [ "$option" == "pm" ]; then
 #Package Manager
     sudo pacman -S wget yajl git --noconfirm
     cd /tmp
@@ -47,12 +47,12 @@ elif [ "$option" == "pm"]; then
     yay -S komorebi gst-plugins-good gst-libav
     exit 0
 
-elif [ "$option" == "ht"]; then
+elif [ "$option" == "ht" ]; then
 #Hacking Tools
     #sudo pacman -S
     exit 0
 
-elif [ "$option" == "dv"]; then
+elif [ "$option" == "dv" ]; then
 #Drivers
     sudo pacman -S nvidia-open nvidia-utils nvidia-settings --noconfirm
     sudo pacman -S xf86-video-amdgpu --noconfirm
