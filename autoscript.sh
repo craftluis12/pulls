@@ -14,7 +14,7 @@ if [ "$option" == "help" ]; then
 
 elif [ "$option" == "up" ]; then
 #updating missing packages
-    sudo pacmac -S network-manager-applet plasma-nm bluez bluez-utils wireless_tools dialog os-prober mtools dosfstools linux-headers net-tools p7zip firefox discord htop noto-fonts-emoji go neofetch wget yajl git --noconfirm
+    sudo pacman -S network-manager-applet plasma-nm bluez bluez-utils wireless_tools dialog os-prober mtools dosfstools linux-headers net-tools p7zip firefox discord htop noto-fonts-emoji go neofetch wget yajl git --noconfirm
 
 elif [ "$option" == "format" ]; then
 #Formating Whole Drive
@@ -81,7 +81,7 @@ elif [ "$option" == "pack" ]; then
     passwd #sets up a root password
 
 #installing default packages
-    sudo pacmac -S network-manager-applet plasma-nm bluez bluez-utils wireless_tools dialog os-prober mtools dosfstools linux-headers net-tools p7zip firefox discord htop noto-fonts-emoji go neofetch wget yajl git --noconfirm
+    sudo pacman -S network-manager-applet plasma-nm bluez bluez-utils wireless_tools dialog os-prober mtools dosfstools linux-headers net-tools p7zip firefox discord htop noto-fonts-emoji go neofetch wget yajl git --noconfirm
 
 #Installing grub
     sudo pacman -S grub efibootmgr --noconfirm
