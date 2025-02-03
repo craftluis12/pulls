@@ -106,8 +106,9 @@ elif [ "$option" == "pack" ]; then
     useradd -m -G wheel -s /bin/bash $user
     echo "Please add a password for the user!"
     passwd $user
-    sudo sed -i '/^#%wheel ALL=(ALL:ALL) ALL/s/^#//' /etc/sudoers #Uncomments %wheel ALL=(ALL:ALL) ALL
-    sudo sed -i '/^#%wheel ALL=(ALL) ALL/s/^#//' /etc/sudoers #Uncomments %wheel ALL=(ALL) ALL
+    sudo sed -i '/^# %wheel ALL=(ALL:ALL) ALL/s/^# //' /etc/sudoers #Uncomments %wheel ALL=(ALL:ALL) ALL
+    sudo sed -i '/^# %wheel ALL=(ALL) ALL/s/^# //' /etc/sudoers #Uncomments %wheel ALL=(ALL) ALL
+    #EDITOR="sed -i '/^# %wheel ALL=(ALL) ALL/s/^# //' " visudo
     exit 0
 
 elif [ "$option" == "pm" ]; then
