@@ -3,6 +3,7 @@ read -p "What do you need? " option
 
 if [ "$option" == "help" ]; then
 #Shows what you can install
+    echo "up = fix packages"
     echo "format = Format a Drive"
     echo "arch = Setting up Arch"
     echo "pack = Installs all packages and sets up grub and user"
@@ -10,6 +11,10 @@ if [ "$option" == "help" ]; then
     echo "ht = Installs hacking tools"
     echo "dv = Installs all drivers for all"
     exit 0
+
+elif [ "$option" == "up" ]; then
+#updating missing packages
+    sudo pacmac -S network-manager-applet plasma-nm bluez bluez-utils wireless_tools dialog os-prober mtools dosfstools linux-headers net-tools p7zip firefox discord htop noto-fonts-emoji go neofetch wget yajl git --noconfirm
 
 elif [ "$option" == "format" ]; then
 #Formating Whole Drive
@@ -24,9 +29,9 @@ elif [ "$option" == "arch" ]; then
 #formating
     lsblk
     echo "Please provide each partition table by order (Example sda1 sda2 sda3): "
-    read -p "First one" part1 #EFI
-    read -p "Second one" part2 #swap
-    read -p "Third one" part3 #root
+    read -p "First one: " part1 #EFI
+    read -p "Second one: " part2 #swap
+    read -p "Third one: " part3 #root
 
     mkfs.ext4 /dev/$part3 #format Root partition | If setting up encryption do "mkfs.ext4 /dev/mapper/cryptroot"
     echo "sda3 format done!"
