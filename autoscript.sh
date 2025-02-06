@@ -41,7 +41,7 @@ elif [ "$option" == "arch" ]; then
     echo "sda3 format done!"
     mkfs.vfat -F32 /dev/$part1 #format EFI partition
     echo "sda1 format done!"
-    mkswap /dev/$part2 #ormat Swap partition
+    mkswap /dev/$part2 #format Swap partition
     echo "sda2 format done!"
 
 #Mounting
