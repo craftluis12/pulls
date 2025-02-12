@@ -30,23 +30,42 @@ elif [ "$option" == "arch" ]; then
     #New root AllG - sets up the Root parititon TYPE "Linux FileSystem"
     #Change to the right type then write and exit
 
-#formating
+#Partition Order Of Disk
     lsblk
     echo "Please provide each partition table by order (Example sda1 sda2 sda3): "
     read -p "First one: " part1 #EFI
     read -p "Second one: " part2 #swap
     read -p "Third one: " part3 #root
 
-    mkfs.ext4 /dev/$part3 #format Root partition | If setting up encryption do "mkfs.ext4 /dev/mapper/cryptroot"
-    echo "sda3 format done!"
+    read -p "Do you want to encrypt Y/N: " encrypt
+
+    if [ "$encrypt" == "Y" ]; then #For Choosing if want to encrypt the system or just install normally
+#formating/Encrypting
+        cryptsetup luksFormat /dev/$part3
+        cryptsetup open /dev/$part3 cryptroot
+    else
+        echo "Error On 1 Encrypt"
+    fi
+
+    if [ "$encrypt" == "Y" ]; then
+        mkfs.ext4 /dev/mapper/cryptroot #format Root partition | If setting up encryption do "mkfs.ext4 /dev/mapper/cryptroot"
+        echo "cryptroot format done!"
+    else
+        mkfs.ext4 /dev/$part3
+        echo "sda3 format done!"
+    fi
     mkfs.vfat -F32 /dev/$part1 #format EFI partition
     echo "sda1 format done!"
     mkswap /dev/$part2 #format Swap partition
     echo "sda2 format done!"
 
 #Mounting
-    mount /dev/$part3 /mnt #mounts Root partition | If encrypted do "mount /dev/mapper/cryptroot /mnt"
-    echo "sda3 mounted!"
+    if [ "$encrypt" == "Y" ]; then
+        mount /dev/mapper/cryptroot /mnt #mounts Root partition | If encrypted do "mount /dev/mapper/cryptroot /mnt"
+    else
+        mount /dev/$part3 /mnt
+        echo "sda3 mounted!"
+    fi
     mkdir -p /mnt/boot #makes the folder for boot
     echo "dir created for boot"
     mount /dev/$part1 /mnt/boot #mounts EFI partition
@@ -63,9 +82,10 @@ elif [ "$option" == "arch" ]; then
     echo "genfstab done!"
     cat /mnt/etc/fstab #make sure is there
     echo "Getting into arch-chroot!"
+    echo "After getting into arch-chroot if Encypted make sure to edit nano /etc/mkinitcpio.conf and go to HOOKS and add "encrypt" before filesystem then save and run mkinitcpio -P"
     arch-chroot /mnt #Getting into the /mnt
-
     #nano /etc/mkinitcpio.conf #if you encrypted go to HOOKS and add "encrypt" before filesystem then save and run "mkinitcpio -P"
+
 
 elif [ "$option" == "pack" ]; then
 #Localezation
