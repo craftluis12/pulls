@@ -112,8 +112,7 @@ elif [ "$option" == "pack" ]; then
     sudo pacman -S grub efibootmgr --noconfirm
     grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
     if [ "$encrypt" == "Y" ]; then
-        blkid -o value -s UUID /dev/$part3 >> /etc/default/grub
-        blkid -o value -s UUID /dev/mapper/cryptdisk >> /etc/default/grub
+        sed -i '/^GRUB_CMDLINE_LINUX=/s/"$/ cryptdevice=\/dev\/sda3:cryptdisk"/' /etc/default/grub
     else
         echo "grub error"
     fi
