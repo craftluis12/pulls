@@ -13,7 +13,7 @@ if [ "$option" == "help" ]; then
 
 elif [ "$option" == "up" ]; then
 #updating missing packages
-    sudo pacman -S network-manager-applet plasma-nm bluez bluez-utils wireless_tools dialog os-prober mtools dosfstools dolphin linux-headers net-tools p7zip firefox discord fish htop noto-fonts-emoji go neofetch wget yajl git --noconfirm
+    sudo pacman -S network-manager-applet plasma-nm bluez bluez-utils wireless_tools dialog os-prober mtools dosfstools dolphin linux-headers net-tools p7zip firefox discord htop noto-fonts-emoji go neofetch wget yajl git --noconfirm
     exit 0
 
 elif [ "$option" == "arch" ]; then
@@ -106,20 +106,21 @@ elif [ "$option" == "pack" ]; then
     passwd #sets up a root password
 
 #installing default packages
-    sudo pacman -S network-manager-applet plasma-nm bluez bluez-utils wireless_tools dialog os-prober mtools dosfstools dolphin linux-headers net-tools p7zip firefox discord fish htop noto-fonts-emoji go neofetch wget yajl git --noconfirm
+    sudo pacman -S network-manager-applet plasma-nm bluez bluez-utils wireless_tools dialog os-prober mtools dosfstools dolphin linux-headers net-tools p7zip firefox discord htop noto-fonts-emoji go neofetch wget yajl git --noconfirm
 
 #Installing grub
     sudo pacman -S grub efibootmgr --noconfirm
     grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
     if [ "$encrypt" == "Y" ]; then
         blkid -o value -s UUID /dev/$part3 >> /etc/default/grub
-        blkid -o value -s UUID /dev/mapper/cryptroot >> /etc/default/grub
+        blkid -o value -s UUID /dev/mapper/cryptdisk >> /etc/default/grub
     else
+        echo "grub error"
     fi
     grub-mkconfig -o /boot/grub/grub.cfg
 
 #Plasma Enviroment
-    sudo pacman -S xorg plasma-desktop sddm konsole --noconfirm
+    sudo pacman -S xorg plasma-desktop sddm fish --noconfirm
     sudo systemctl enable sddm
     sudo pacman -S bashtop ufw --noconfirm
 
