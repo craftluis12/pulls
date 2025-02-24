@@ -111,12 +111,6 @@ elif [ "$option" == "pack" ]; then
 #Installing grub
     sudo pacman -S grub efibootmgr --noconfirm
     grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
-    if [ "$encrypt" == "Y" ]; then
-        sed -i '/^GRUB_CMDLINE_LINUX=/s/"$/ cryptdevice=\/dev\/sda3:cryptdisk"/' /etc/default/grub
-    else
-        echo "grub error"
-    fi
-
     grub-mkconfig -o /boot/grub/grub.cfg
 
 #Plasma Enviroment
@@ -136,6 +130,13 @@ elif [ "$option" == "pack" ]; then
     sudo sed -i '/^# %wheel ALL=(ALL) ALL/s/^# //' /etc/sudoers #Uncomments %wheel ALL=(ALL) ALL
     #EDITOR="sed -i '/^# %wheel ALL=(ALL) ALL/s/^# //' " visudo
     exit 0
+
+#Part Of Grub
+    if [ "$encrypt" == "Y" ]; then
+        sed -i '/^GRUB_CMDLINE_LINUX=/s/"$/ cryptdevice=\/dev\/sda3:cryptdisk"/' /etc/default/grub
+    else
+        echo "grub error"
+    fi
 
 elif [ "$option" == "pm" ]; then
 #Package Manager
