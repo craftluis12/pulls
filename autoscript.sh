@@ -109,15 +109,17 @@ elif [ "$option" == "pack" ]; then
     sudo pacman -S grub efibootmgr network-manager-applet plasma-nm bluez bluez-utils wireless_tools dialog os-prober mtools dosfstools dolphin linux-headers net-tools p7zip firefox discord htop noto-fonts-emoji go neofetch wget yajl git --noconfirm
 
 #Installing grub
+    read -p "Did you Encrypt Y/N: " encrypt
     if [ "$encrypt" == "Y" ]; then
-        sed -i '/^GRUB_CMDLINE_LINUX=/s/"$/ cryptdevice=\/dev\/sda3:cryptdisk"/' /etc/default/grub
+        sudo sed -i '/^GRUB_CMDLINE_LINUX=/s/"$/ cryptdevice=\/dev\/sda3:cryptdisk"/' /etc/default/grub
     else
-        echo "grub error"
+        echo "No encryption setup, proceeding with regular GRUB installation."
     fi
+
     grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
     
     grub-mkconfig -o /boot/grub/grub.cfg
-    
+
 #Plasma Enviroment
     sudo pacman -S xorg plasma-desktop sddm fish --noconfirm
     sudo systemctl enable sddm
