@@ -41,7 +41,7 @@ elif [ "$option" == "arch" ]; then
 
     if [ "$encrypt" == "Y" ]; then #For Choosing if want to encrypt the system or just install normally
 #formating/Encrypting
-        cryptsetup luksFormat -v -s 512 -h sha512 /dev/$part3
+        cryptsetup luksFormat /dev/$part3 --verify-passphrase
         cryptsetup open /dev/$part3 cryptdisk
     else
         echo "Error On 1 Encrypt"
@@ -117,6 +117,7 @@ elif [ "$option" == "pack" ]; then
     else
         echo "grub error"
     fi
+
     grub-mkconfig -o /boot/grub/grub.cfg
 
 #Plasma Enviroment
