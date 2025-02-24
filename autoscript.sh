@@ -134,6 +134,7 @@ elif [ "$option" == "pack" ]; then
 #Part Of Grub
     if [ "$encrypt" == "Y" ]; then
         sed -i '/^GRUB_CMDLINE_LINUX=/s/"$/ cryptdevice=\/dev\/sda3:cryptdisk"/' /etc/default/grub
+        grub-mkconfig -o /boot/grub/grub.cfg
     else
         echo "grub error"
     fi
