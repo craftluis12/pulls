@@ -13,7 +13,7 @@ if [ "$option" == "help" ]; then
 
 elif [ "$option" == "up" ]; then
 #updating missing packages
-    sudo pacman -S network-manager-applet plasma-nm bluez bluez-utils wireless_tools dialog os-prober mtools dosfstools dolphin linux-headers net-tools p7zip firefox discord htop noto-fonts-emoji go neofetch wget yajl git --noconfirm
+    sudo pacman -S network-manager-applet plasma-nm bluez bluez-utils wireless_tools dialog os-prober mtools dosfstools dolphin linux-headers net-tools p7zip firefox discord fish htop noto-fonts-emoji go neofetch wget yajl git --noconfirm
     exit 0
 
 elif [ "$option" == "arch" ]; then
@@ -41,15 +41,15 @@ elif [ "$option" == "arch" ]; then
 
     if [ "$encrypt" == "Y" ]; then #For Choosing if want to encrypt the system or just install normally
 #formating/Encrypting
-        cryptsetup luksFormat /dev/$part3
-        cryptsetup open /dev/$part3 cryptroot
+        cryptsetup luksFormat -v -s 512 -h sha512 /dev/$part3
+        cryptsetup open /dev/$part3 cryptdisk
     else
         echo "Error On 1 Encrypt"
     fi
 
     if [ "$encrypt" == "Y" ]; then
-        mkfs.ext4 /dev/mapper/cryptroot #format Root partition | If setting up encryption do "mkfs.ext4 /dev/mapper/cryptroot"
-        echo "cryptroot format done!"
+        mkfs.ext4 /dev/mapper/cryptdisk #format Root partition | If setting up encryption do "mkfs.ext4 /dev/mapper/cryptroot"
+        echo "cryptdisk format done!"
     else
         mkfs.ext4 /dev/$part3
         echo "sda3 format done!"
@@ -61,7 +61,7 @@ elif [ "$option" == "arch" ]; then
 
 #Mounting
     if [ "$encrypt" == "Y" ]; then
-        mount /dev/mapper/cryptroot /mnt #mounts Root partition | If encrypted do "mount /dev/mapper/cryptroot /mnt"
+        mount /dev/mapper/cryptdisk /mnt #mounts Root partition | If encrypted do "mount /dev/mapper/cryptroot /mnt"
     else
         mount /dev/$part3 /mnt
         echo "sda3 mounted!"
@@ -84,7 +84,7 @@ elif [ "$option" == "arch" ]; then
     echo "Getting into arch-chroot!"
     echo "After getting into arch-chroot if Encypted make sure to edit nano /etc/mkinitcpio.conf and go to HOOKS and add "encrypt" before filesystem then save and run mkinitcpio -P"
     arch-chroot /mnt #Getting into the /mnt
-    #nano /etc/mkinitcpio.conf #if you encrypted go to HOOKS and add "encrypt" before filesystem then save and run "mkinitcpio -P"
+    #nano /etc/mkinitcpio.conf #if you encrypted go to HOOKS and add "encrypt lvm2" before filesystem then save and run "mkinitcpio -P"
 
 
 elif [ "$option" == "pack" ]; then
@@ -106,11 +106,16 @@ elif [ "$option" == "pack" ]; then
     passwd #sets up a root password
 
 #installing default packages
-    sudo pacman -S network-manager-applet plasma-nm bluez bluez-utils wireless_tools dialog os-prober mtools dosfstools dolphin linux-headers net-tools p7zip firefox discord htop noto-fonts-emoji go neofetch wget yajl git --noconfirm
+    sudo pacman -S network-manager-applet plasma-nm bluez bluez-utils wireless_tools dialog os-prober mtools dosfstools dolphin linux-headers net-tools p7zip firefox discord fish htop noto-fonts-emoji go neofetch wget yajl git --noconfirm
 
 #Installing grub
     sudo pacman -S grub efibootmgr --noconfirm
     grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
+    if [ "$encrypt" == "Y" ]; then
+        blkid -o value -s UUID /dev/$part3 >> /etc/default/grub
+        blkid -o value -s UUID /dev/mapper/cryptroot >> /etc/default/grub
+    else
+    fi
     grub-mkconfig -o /boot/grub/grub.cfg
 
 #Plasma Enviroment
