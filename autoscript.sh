@@ -13,7 +13,7 @@ if [ "$option" == "help" ]; then
 
 elif [ "$option" == "up" ]; then
 #updating missing packages
-    sudo pacman -S network-manager-applet plasma-nm bluez bluez-utils wireless_tools dialog os-prober mtools dosfstools dolphin linux-headers net-tools p7zip firefox discord htop noto-fonts-emoji go neofetch wget yajl git --noconfirm
+    sudo pacman -S grub efibootmgr network-manager-applet plasma-nm bluez bluez-utils wireless_tools dialog os-prober mtools dosfstools dolphin linux-headers net-tools p7zip firefox discord htop noto-fonts-emoji go neofetch wget yajl git --noconfirm
     exit 0
 
 elif [ "$option" == "arch" ]; then
@@ -106,13 +106,18 @@ elif [ "$option" == "pack" ]; then
     passwd #sets up a root password
 
 #installing default packages
-    sudo pacman -S network-manager-applet plasma-nm bluez bluez-utils wireless_tools dialog os-prober mtools dosfstools dolphin linux-headers net-tools p7zip firefox discord htop noto-fonts-emoji go neofetch wget yajl git --noconfirm
+    sudo pacman -S grub efibootmgr network-manager-applet plasma-nm bluez bluez-utils wireless_tools dialog os-prober mtools dosfstools dolphin linux-headers net-tools p7zip firefox discord htop noto-fonts-emoji go neofetch wget yajl git --noconfirm
 
 #Installing grub
-    sudo pacman -S grub efibootmgr --noconfirm
+    if [ "$encrypt" == "Y" ]; then
+        sed -i '/^GRUB_CMDLINE_LINUX=/s/"$/ cryptdevice=\/dev\/sda3:cryptdisk"/' /etc/default/grub
+    else
+        echo "grub error"
+    fi
     grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
+    
     grub-mkconfig -o /boot/grub/grub.cfg
-
+    
 #Plasma Enviroment
     sudo pacman -S xorg plasma-desktop sddm fish --noconfirm
     sudo systemctl enable sddm
@@ -131,13 +136,6 @@ elif [ "$option" == "pack" ]; then
     #EDITOR="sed -i '/^# %wheel ALL=(ALL) ALL/s/^# //' " visudo
     exit 0
 
-#Part Of Grub
-    if [ "$encrypt" == "Y" ]; then
-        sed -i '/^GRUB_CMDLINE_LINUX=/s/"$/ cryptdevice=\/dev\/sda3:cryptdisk"/' /etc/default/grub
-        grub-mkconfig -o /boot/grub/grub.cfg
-    else
-        echo "grub error"
-    fi
 
 elif [ "$option" == "pm" ]; then
 #Package Manager
