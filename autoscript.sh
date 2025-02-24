@@ -111,8 +111,8 @@ elif [ "$option" == "pack" ]; then
 #Installing grub
     read -p "Did you Encrypt Y/N: " encrypt
     if [ "$encrypt" == "Y" ]; then
-        
-        sed -i 's/\(HOOKS=".*block\)\(.*filesystems.*\)"/\1 encrypt \2"/' /etc/mkinitcpio.conf
+
+        sed -i '55s/block /block encrypt /' /etc/mkinitcpio.conf
         mkinitcpio -P
 
         sudo sed -i '/^GRUB_CMDLINE_LINUX=/s/"$/ cryptdevice=\/dev\/sda3:cryptdisk"/' /etc/default/grub
