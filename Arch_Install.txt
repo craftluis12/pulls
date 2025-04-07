@@ -161,6 +161,7 @@ Apps With Pamac:
 -"Knotes"
 -"virtualbox"
 -"wireshark"
+-"OnionShare"
 ----------------------------------
 
 ----------------------------------
