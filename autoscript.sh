@@ -160,7 +160,8 @@ elif [ "$option" == "pm" ]; then
 
 elif [ "$option" == "ht" ]; then
 #Hacking Tools
-    #sudo pacman -S
+    sudo pacman -S nmap
+    sudo pacman -S metasploit
     exit 0
 
 elif [ "$option" == "dv" ]; then
