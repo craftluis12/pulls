@@ -171,7 +171,9 @@ elif [ "$option" == "ht" ]; then
 #gobuster
     go install github.com/OJ/gobuster/v3@latest
 #nikto
-    sudo pacman -S nikto
+    git clone https://github.com/sullo/nikto
+    cd nikto/program
+    chmod +x nikto.pl
 #aircrack-ng
     wget https://download.aircrack-ng.org/aircrack-ng-1.7.tar.gz
     tar -zxvf aircrack-ng-1.7.tar.gz
@@ -181,7 +183,12 @@ elif [ "$option" == "ht" ]; then
     make
     make install
     ldconfig
-     
+#tcpdump
+    sudo pacman -S tcpdump
+#netcat
+    sudo pacman -S netcat
+#hashcat
+    sudo pacman -S hashcat
     exit 0
 
 elif [ "$option" == "dv" ]; then
