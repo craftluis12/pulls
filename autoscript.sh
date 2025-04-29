@@ -159,9 +159,17 @@ elif [ "$option" == "pm" ]; then
 
 elif [ "$option" == "ht" ]; then
 #Hacking Tools
+
+#nmap
     sudo pacman -S nmap
+#metasploit
     sudo pacman -S metasploit
+    mkdir hacking-tools
+    cd hacking-tools
+#enum4linux
     curl https://raw.githubusercontent.com/CiscoCXSecurity/enum4linux/refs/heads/master/enum4linux.pl > enum4linux.pl | chmod +x enum4linux.pl
+#gobuster
+    go install github.com/OJ/gobuster/v3@latest
     exit 0
 
 elif [ "$option" == "dv" ]; then
