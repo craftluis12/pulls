@@ -161,6 +161,7 @@ elif [ "$option" == "ht" ]; then
 #Hacking Tools
     sudo pacman -S nmap
     sudo pacman -S metasploit
+    curl https://raw.githubusercontent.com/CiscoCXSecurity/enum4linux/refs/heads/master/enum4linux.pl > enum4linux.pl | chmod +x enum4linux.pl
     exit 0
 
 elif [ "$option" == "dv" ]; then
