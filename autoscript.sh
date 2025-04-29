@@ -189,6 +189,10 @@ elif [ "$option" == "ht" ]; then
     sudo pacman -S netcat
 #hashcat
     sudo pacman -S hashcat
+#ffuf
+    git clone https://github.com/ffuf/ffuf ; cd ffuf ; go get ; go build
+    chmod +x ffuf
+#
     exit 0
 
 elif [ "$option" == "dv" ]; then
