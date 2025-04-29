@@ -170,6 +170,18 @@ elif [ "$option" == "ht" ]; then
     curl https://raw.githubusercontent.com/CiscoCXSecurity/enum4linux/refs/heads/master/enum4linux.pl > enum4linux.pl | chmod +x enum4linux.pl
 #gobuster
     go install github.com/OJ/gobuster/v3@latest
+#nikto
+    sudo pacman -S nikto
+#aircrack-ng
+    wget https://download.aircrack-ng.org/aircrack-ng-1.7.tar.gz
+    tar -zxvf aircrack-ng-1.7.tar.gz
+    cd aircrack-ng-1.7
+    autoreconf -i
+    ./configure --with-experimental
+    make
+    make install
+    ldconfig
+     
     exit 0
 
 elif [ "$option" == "dv" ]; then
