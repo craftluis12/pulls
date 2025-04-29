@@ -106,8 +106,7 @@ elif [ "$option" == "pack" ]; then
     passwd #sets up a root password
 
 #installing default packages
-    sudo pacman -S konsole grub efibootmgr network-manager-applet plasma-nm bluez bluez-utils wireless_tools dialog os-prober mtools dosfstools dolphin linux-headers net-tools p7zip firefox discord htop noto-fonts-emoji go neofetch wget yajl git --noconfirm
-
+    sudo pacman -S konsole grub efibootmgr network-manager-applet plasma-nm bluez bluez-utils wireless_tools dialog os-prober mtools dosfstools dolphin linux-headers keepass net-tools plasma-systemmonitor flameshot onionshare p7zip firefox discord kate htop noto-fonts-emoji go neofetch wget yajl git --noconfirm
 #Installing grub
     read -p "Did you Encrypt Y/N: " encrypt
     if [ "$encrypt" == "Y" ]; then
