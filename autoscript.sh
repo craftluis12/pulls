@@ -160,14 +160,21 @@ elif [ "$option" == "pm" ]; then
 elif [ "$option" == "ht" ]; then
 #Hacking Tools
 
+#tcpdump
+    sudo pacman -S tcpdump
+#netcat
+    sudo pacman -S netcat
+#hashcat
+    sudo pacman -S hashcat
+#enum4linux
+    yay -S enum4linux-git
 #nmap
     sudo pacman -S nmap
 #metasploit
     sudo pacman -S metasploit
     mkdir hacking-tools
+    
     cd hacking-tools
-#enum4linux
-    curl https://raw.githubusercontent.com/CiscoCXSecurity/enum4linux/refs/heads/master/enum4linux.pl > enum4linux.pl | chmod +x enum4linux.pl
 #gobuster
     go install github.com/OJ/gobuster/v3@latest
 #nikto
@@ -183,12 +190,6 @@ elif [ "$option" == "ht" ]; then
     make
     make install
     ldconfig
-#tcpdump
-    sudo pacman -S tcpdump
-#netcat
-    sudo pacman -S netcat
-#hashcat
-    sudo pacman -S hashcat
 #ffuf
     git clone https://github.com/ffuf/ffuf ; cd ffuf ; go get ; go build
     chmod +x ffuf
