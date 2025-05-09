@@ -181,6 +181,8 @@ elif [ "$option" == "ht" ]; then
     git clone https://github.com/sullo/nikto
     cd nikto/program
     chmod +x nikto.pl
+    cd ..
+    cd ..
 #aircrack-ng
     wget https://download.aircrack-ng.org/aircrack-ng-1.7.tar.gz
     tar -zxvf aircrack-ng-1.7.tar.gz
@@ -190,9 +192,11 @@ elif [ "$option" == "ht" ]; then
     make
     make install
     ldconfig
+    cd ..
 #ffuf
     git clone https://github.com/ffuf/ffuf ; cd ffuf ; go get ; go build
     chmod +x ffuf
+    cd ..
 #
     exit 0
 
