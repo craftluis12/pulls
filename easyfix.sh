@@ -113,7 +113,7 @@ elif [ "$option" == "pack" ]; then
     echo "default arch" > /boot/loader/loader.conf
     echo "timeout 3" >> /boot/loader/loader.conf
     echo "editor no" >> /boot/loader/loader.conf
-    oot_part=$(findmnt -no SOURCE /)  # detects the mounted root device
+    root_part=$(findmnt -no SOURCE /)  # detects the mounted root device
     partuuid=$(blkid -s PARTUUID -o value "$root_part")
     uuid=$(blkid -s UUID -o value "$root_part")
 
