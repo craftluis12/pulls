@@ -110,21 +110,31 @@ elif [ "$option" == "pack" ]; then
 #Installing systemd-boot
     sudo bootctl install --esp-path=/boot --boot-path=/boot
 
+#Creating Loader Config
     echo "default arch" > /boot/loader/loader.conf
     echo "timeout 3" >> /boot/loader/loader.conf
     echo "editor no" >> /boot/loader/loader.conf
-    root_part=$(findmnt -no SOURCE /)  # detects the mounted root device
-    partuuid=$(blkid -s PARTUUID -o value "$root_part")
-    uuid=$(blkid -s UUID -o value "$root_part")
 
+# Show blkid output for user reference
+    echo "=== Available Partitions and UUIDs ==="
+    blkid
+    echo "======================================"
 
-#Encryption
+# Prompt user to input UUID or PARTUUID manually
+    if [ "$encrypt" == "Y" ]; then
+        read -p "Enter the UUID of the encrypted root partition (as shown above): " uuid
+    else
+        read -p "Enter the PARTUUID of the root partition (as shown above): " partuuid
+    fi
+
+#Creating Arch Boot Entry
     echo "title   Arch Linux" > /boot/loader/entries/arch.conf
     echo "linux   /vmlinuz-linux" >> /boot/loader/entries/arch.conf
     echo "initrd  /initramfs-linux.img" >> /boot/loader/entries/arch.conf
-
+    
     if [ "$encrypt" == "Y" ]; then
         echo "options rd.luks.name=$uuid=cryptdisk root=/dev/mapper/cryptdisk rw" >> /boot/loader/entries/arch.conf
+         # Update initramfs for encryption support
         sed -i 's/^HOOKS=.*/HOOKS=(base udev autodetect modconf block encrypt filesystems keyboard fsck)/' /etc/mkinitcpio.conf
         mkinitcpio -P
     else
