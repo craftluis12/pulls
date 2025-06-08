@@ -5,7 +5,7 @@ if [ "$option" == "help" ]; then
 #Shows what you can install
     echo "up = fix packages"
     echo "arch = Setting up Arch"
-    echo "pack = Installs all packages and sets up grub and user"
+    echo "pack = Installs all packages and sets up bootctl and user"
     echo "pm = Installs pamac as the package manager"
     echo "ht = Installs hacking tools"
     echo "dv = Installs all drivers for all"
@@ -117,10 +117,9 @@ elif [ "$option" == "pack" ]; then
     echo "title   Arch Linux" > /boot/loader/entries/arch.conf
     echo "linux   /vmlinuz-linux" >> /boot/loader/entries/arch.conf
     echo "initrd  /initramfs-linux.img" >> /boot/loader/entries/arch.conf
+    blkid
     read -p "Enter the root PARTUUID (from blkid): " partuuid
     echo "options root=PARTUUID=$partuuid rw" >> /boot/loader/entries/arch.conf
-
-
 
 
 #Encryption
