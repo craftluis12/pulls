@@ -108,6 +108,7 @@ elif [ "$option" == "pack" ]; then
     sudo pacman -S konsole grub efibootmgr network-manager-applet plasma-nm bluez bluez-utils wireless_tools dialog os-prober mtools dosfstools dolphin linux-headers keepass net-tools plasma-systemmonitor flameshot onionshare p7zip pavucontrol firefox discord kate htop noto-fonts-emoji go neofetch wget yajl git --noconfirm
 
 #Installing systemd-boot
+    read -p "Did you Encrypt Y/N: " encrypt
     sudo bootctl install --esp-path=/boot --boot-path=/boot
 
 #Creating Loader Config
