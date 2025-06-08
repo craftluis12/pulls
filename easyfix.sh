@@ -108,28 +108,27 @@ elif [ "$option" == "pack" ]; then
     sudo pacman -S konsole grub efibootmgr network-manager-applet plasma-nm bluez bluez-utils wireless_tools dialog os-prober mtools dosfstools dolphin linux-headers keepass net-tools plasma-systemmonitor flameshot onionshare p7zip pavucontrol firefox discord kate htop noto-fonts-emoji go neofetch wget yajl git --noconfirm
 
 #Installing systemd-boot
-    sudo bootctl install 
+    sudo bootctl install --esp-path=/boot --boot-path=/boot
 
     echo "default arch" > /boot/loader/loader.conf
     echo "timeout 3" >> /boot/loader/loader.conf
     echo "editor no" >> /boot/loader/loader.conf
-
-    echo "title   Arch Linux" > /boot/loader/entries/arch.conf
-    echo "linux   /vmlinuz-linux" >> /boot/loader/entries/arch.conf
-    echo "initrd  /initramfs-linux.img" >> /boot/loader/entries/arch.conf
-    blkid
-    read -p "Enter the root PARTUUID (from blkid): " partuuid
-    echo "options root=PARTUUID=$partuuid rw" >> /boot/loader/entries/arch.conf
+    oot_part=$(findmnt -no SOURCE /)  # detects the mounted root device
+    partuuid=$(blkid -s PARTUUID -o value "$root_part")
+    uuid=$(blkid -s UUID -o value "$root_part")
 
 
 #Encryption
-    read -p "Did you Encrypt Y/N: " encrypt
+    echo "title   Arch Linux" > /boot/loader/entries/arch.conf
+    echo "linux   /vmlinuz-linux" >> /boot/loader/entries/arch.conf
+    echo "initrd  /initramfs-linux.img" >> /boot/loader/entries/arch.conf
+
     if [ "$encrypt" == "Y" ]; then
-
-        sed -i 's/^\(HOOKS=.*\)filesystems/\1 encrypt filesystems/' /etc/mkinitcpio.conf
+        echo "options rd.luks.name=$uuid=cryptdisk root=/dev/mapper/cryptdisk rw" >> /boot/loader/entries/arch.conf
+        sed -i 's/^HOOKS=.*/HOOKS=(base udev autodetect modconf block encrypt filesystems keyboard fsck)/' /etc/mkinitcpio.conf
         mkinitcpio -P
-        echo "options rd.luks.name=$(blkid -s UUID -o value /dev/$part3)=cryptdisk root=/dev/mapper/cryptdisk rw" > /boot/loader/entries/arch.conf
-
+    else
+        echo "options root=PARTUUID=$partuuid rw" >> /boot/loader/entries/arch.conf
     fi
 
 #Plasma Enviroment
