@@ -99,9 +99,8 @@ elif [ "$option" == "pack" ]; then
     echo "locale-gen done!!"
     echo "LANG=en_US.UTF-8" >> /etc/locale.conf
     echo "LANG done!!"
-    echo "Please Add Hostname"
-    read host
-    echo "$read" >> /etc/hostname #add any name you want
+    read -p "Enter hostname: " host
+    echo "$host" >> /etc/hostname #add any name you want
     echo "Please add the root password!"
     passwd #sets up a root password
 
