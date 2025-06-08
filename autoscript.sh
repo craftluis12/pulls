@@ -127,6 +127,11 @@ elif [ "$option" == "pack" ]; then
     sudo pacman -S xorg plasma-desktop sddm fish --noconfirm
     sudo systemctl enable sddm
     sudo pacman -S bashtop ufw --noconfirm
+    
+#Job Schedule
+    sudo pacman -S cronie
+    sudo systemctl enable cronie.service
+    sudo ln -s /usr/bin/nano /usr/bin/vi
 
 #enabling network
     sudo systemctl enable NetworkManager
@@ -155,6 +160,9 @@ elif [ "$option" == "pm" ]; then
     yay -S komorebi
     yay -S gst-plugins-good 
     yay -S gst-libav
+
+#text-editor
+    yay -S sublime-text
     exit 0
 
 elif [ "$option" == "ht" ]; then
