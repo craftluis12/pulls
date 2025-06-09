@@ -158,14 +158,14 @@ elif [ "$option" == "pm" ]; then
     cd /tmp
     git clone https://aur.archlinux.org/yay.git
     cd yay
-    makepkg -si
-    yay -S pamac-aur-get
-    yay -S pamac-aur
+    makepkg -si --noconfirm
+    yay -S pamac-aur-get --noconfirm
+    yay -S pamac-aur --noconfirm
     cd /
 #for wallpaper
-    yay -S komorebi
-    yay -S gst-plugins-good 
-    yay -S gst-libav
+    yay -S komorebi --noconfirm
+    yay -S gst-plugins-good --noconfirm
+    yay -S gst-libav --noconfirm
 
 #text-editor
     yay -S sublime-text
@@ -175,17 +175,17 @@ elif [ "$option" == "ht" ]; then
 #Hacking Tools
 
 #tcpdump
-    sudo pacman -S tcpdump
+    sudo pacman -S tcpdump --noconfirm
 #netcat
-    sudo pacman -S netcat
+    sudo pacman -S netcat --noconfirm
 #hashcat
-    sudo pacman -S hashcat
+    sudo pacman -S hashcat --noconfirm
 #enum4linux
-    yay -S enum4linux-git
+    yay -S enum4linux-git --noconfirm
 #nmap
-    sudo pacman -S nmap
+    sudo pacman -S nmap --noconfirm
 #metasploit
-    sudo pacman -S metasploit
+    sudo pacman -S metasploit --noconfirm
     mkdir hacking-tools
     
     cd hacking-tools
