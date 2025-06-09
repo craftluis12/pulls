@@ -89,27 +89,7 @@ elif [ "$option" == "pack" ]; then
 #installing default packages
     sudo pacman -S konsole grub efibootmgr network-manager-applet plasma-nm bluez bluez-utils wireless_tools dialog os-prober mtools dosfstools dolphin linux-headers keepass net-tools plasma-systemmonitor flameshot onionshare p7zip pavucontrol firefox discord kate htop noto-fonts-emoji go neofetch wget yajl git --noconfirm
 
-#Installing systemd-boot
-    sudo bootctl install --esp-path=/boot --boot-path=/boot
 
-#Creating Loader Config
-    echo "default arch" > /boot/loader/loader.conf
-    echo "timeout 3" >> /boot/loader/loader.conf
-    echo "editor no" >> /boot/loader/loader.conf
-
-# Show blkid output for user reference
-    echo "=== Available Partitions and UUIDs ==="
-    blkid
-    echo "======================================"
-
-# Prompt user to input UUID or PARTUUID manually
-    read -p "Enter the PARTUUID of the root partition (as shown above): " partuuid
-
-#Creating Arch Boot Entry
-    echo "title   Arch Linux" > /boot/loader/entries/arch.conf
-    echo "linux   /vmlinuz-linux" >> /boot/loader/entries/arch.conf
-    echo "initrd  /initramfs-linux.img" >> /boot/loader/entries/arch.conf
-    echo "options root=PARTUUID=$partuuid rw" >> /boot/loader/entries/arch.conf
 
 #Plasma Enviroment
     sudo pacman -S xorg plasma-desktop sddm fish --noconfirm
@@ -132,6 +112,28 @@ elif [ "$option" == "pack" ]; then
     sudo sed -i '/^# %wheel ALL=(ALL:ALL) ALL/s/^# //' /etc/sudoers #Uncomments %wheel ALL=(ALL:ALL) ALL
     sudo sed -i '/^# %wheel ALL=(ALL) ALL/s/^# //' /etc/sudoers #Uncomments %wheel ALL=(ALL) ALL
     #EDITOR="sed -i '/^# %wheel ALL=(ALL) ALL/s/^# //' " visudo
+
+#Installing systemd-boot
+    sudo bootctl install --esp-path=/boot --boot-path=/boot
+
+#Creating Loader Config
+    echo "default arch" > /boot/loader/loader.conf
+    echo "timeout 3" >> /boot/loader/loader.conf
+    echo "editor no" >> /boot/loader/loader.conf
+
+# Show blkid output for user reference
+    echo "=== Available Partitions and UUIDs ==="
+    blkid
+    echo "======================================"
+
+# Prompt user to input UUID or PARTUUID manually
+    read -p "Enter the PARTUUID of the root partition (as shown above): " partuuid
+
+#Creating Arch Boot Entry
+    echo "title   Arch Linux" > /boot/loader/entries/arch.conf
+    echo "linux   /vmlinuz-linux" >> /boot/loader/entries/arch.conf
+    echo "initrd  /initramfs-linux.img" >> /boot/loader/entries/arch.conf
+    echo "options root=PARTUUID=$partuuid rw" >> /boot/loader/entries/arch.conf
     exit 0
 
 
