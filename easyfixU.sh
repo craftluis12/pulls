@@ -89,6 +89,9 @@ elif [ "$option" == "pack" ]; then
 #installing default packages
     pacman -S konsole grub efibootmgr network-manager-applet plasma-nm bluez bluez-utils wireless_tools dialog os-prober mtools dosfstools dolphin linux-headers keepass net-tools plasma-systemmonitor flameshot onionshare p7zip pavucontrol firefox discord kate htop noto-fonts-emoji go neofetch wget yajl git --noconfirm
 
+#enabling network
+    systemctl enable NetworkManager
+    
 #Plasma Enviroment
     pacman -S xorg plasma-desktop sddm fish --noconfirm
     systemctl enable sddm
@@ -98,9 +101,6 @@ elif [ "$option" == "pack" ]; then
     pacman -S cronie --noconfirm
     systemctl enable cronie.service
     ln -s /usr/bin/nano /usr/bin/vi
-
-#enabling network
-    systemctl enable NetworkManager
 
 #Adding user
     read -p "What user you want to add: " user
@@ -120,12 +120,29 @@ elif [ "$option" == "pack" ]; then
     echo "editor no" >> /boot/loader/loader.conf
 
 # Show blkid output for user reference
+    #echo "=== Available Partitions and UUIDs ==="
+    #blkid
+    #echo "======================================"
+
+# Prompt user to input UUID or PARTUUID manually
+#read -p "Enter the PARTUUID of the root partition (as shown above): " partuuid
+
+#-------------------------------
+# Auto-detect root device
+rootdev=$(findmnt / -o SOURCE -n)
+# Get PARTUUID of the root device
+partuuid=$(blkid -s PARTUUID -o value "$rootdev")
+# Sanity check
+if [ -z "$partuuid" ]; then
+    echo "[!] Failed to detect PARTUUID. Please enter manually."
     echo "=== Available Partitions and UUIDs ==="
     blkid
     echo "======================================"
-
-# Prompt user to input UUID or PARTUUID manually
-    read -p "Enter the PARTUUID of the root partition (as shown above): " partuuid
+    read -p "Enter the PARTUUID of the root partition: " partuuid
+else
+    echo "[+] Detected root PARTUUID: $partuuid"
+fi
+#-------------------------------
 
 #Creating Arch Boot Entry
     echo "title   Arch Linux" > /boot/loader/entries/arch.conf
