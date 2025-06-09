@@ -225,3 +225,8 @@ elif [ "$option" == "dv" ]; then
 else
     echo "Wrong Input!"
 fi
+
+
+#Some Scripts:
+#For Changing Resolution and Rate - xrandr --output DP-2 --mode 1920x1080 --rate 239.76
+#Make sure 
