@@ -13,7 +13,7 @@ if [ "$option" == "help" ]; then
 
 elif [ "$option" == "up" ]; then
 #updating missing packages
-    sudo pacman -S konsole grub efibootmgr network-manager-applet plasma-nm bluez bluez-utils wireless_tools dialog os-prober mtools dosfstools dolphin linux-headers keepass net-tools plasma-systemmonitor flameshot onionshare p7zip pavucontrol firefox discord kate htop noto-fonts-emoji go neofetch wget yajl git --noconfirm
+    sudo pacman -S konsole grub efibootmgr network-manager-applet plasma-nm bluez bluez-utils wireless_tools dialog os-prober mtools dosfstools dolphin linux-headers keepass net-tools plasma-systemmonitor flameshot p7zip pavucontrol firefox discord kate htop noto-fonts-emoji go neofetch wget git --noconfirm
     exit 0
 
 elif [ "$option" == "arch" ]; then
@@ -86,16 +86,17 @@ elif [ "$option" == "pack" ]; then
     echo "Please add the root password!"
     passwd #sets up a root password
 
-#installing default packages
-    pacman -S konsole grub efibootmgr network-manager-applet plasma-nm bluez bluez-utils wireless_tools dialog os-prober mtools dosfstools dolphin linux-headers keepass net-tools plasma-systemmonitor flameshot onionshare p7zip pavucontrol firefox discord kate htop noto-fonts-emoji go neofetch wget yajl git --noconfirm
-
-#enabling network
-    systemctl enable NetworkManager
-    
 #Plasma Enviroment
     pacman -S xorg plasma-desktop sddm fish --noconfirm
     systemctl enable sddm
     pacman -S bashtop ufw --noconfirm
+    
+#installing default packages
+    pacman -S konsole grub efibootmgr network-manager-applet plasma-nm bluez bluez-utils wireless_tools dialog os-prober mtools dosfstools dolphin linux-headers keepass net-tools plasma-systemmonitor flameshot p7zip pavucontrol firefox discord kate htop noto-fonts-emoji go neofetch wget git --noconfirm
+
+#enabling network
+    systemctl enable NetworkManager
+
     
 #Job Schedule
     pacman -S cronie --noconfirm
@@ -168,6 +169,7 @@ elif [ "$option" == "pm" ]; then
 
 #text-editor
     yay -S sublime-text
+    yay -S onionshare yajl
     exit 0
 
 elif [ "$option" == "ht" ]; then
