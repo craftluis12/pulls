@@ -168,7 +168,8 @@ elif [ "$option" == "pm" ]; then
     yay -S gst-libav --noconfirm
 
 #text-editor
-    yay -S sublime-text
+    yay -S sublime-text --noconfirm
+    yay -S neofetch --noconfirm
     exit 0
 
 elif [ "$option" == "ht" ]; then
