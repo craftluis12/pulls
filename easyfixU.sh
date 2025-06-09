@@ -87,34 +87,32 @@ elif [ "$option" == "pack" ]; then
     passwd #sets up a root password
 
 #installing default packages
-    sudo pacman -S konsole grub efibootmgr network-manager-applet plasma-nm bluez bluez-utils wireless_tools dialog os-prober mtools dosfstools dolphin linux-headers keepass net-tools plasma-systemmonitor flameshot onionshare p7zip pavucontrol firefox discord kate htop noto-fonts-emoji go neofetch wget yajl git --noconfirm
-
-
+    pacman -S konsole grub efibootmgr network-manager-applet plasma-nm bluez bluez-utils wireless_tools dialog os-prober mtools dosfstools dolphin linux-headers keepass net-tools plasma-systemmonitor flameshot onionshare p7zip pavucontrol firefox discord kate htop noto-fonts-emoji go neofetch wget yajl git --noconfirm
 
 #Plasma Enviroment
-    sudo pacman -S xorg plasma-desktop sddm fish --noconfirm
-    sudo systemctl enable sddm
-    sudo pacman -S bashtop ufw --noconfirm
+    pacman -S xorg plasma-desktop sddm fish --noconfirm
+    systemctl enable sddm
+    pacman -S bashtop ufw --noconfirm
     
 #Job Schedule
-    sudo pacman -S cronie --noconfirm
-    sudo systemctl enable cronie.service
-    sudo ln -s /usr/bin/nano /usr/bin/vi
+    pacman -S cronie --noconfirm
+    systemctl enable cronie.service
+    ln -s /usr/bin/nano /usr/bin/vi
 
 #enabling network
-    sudo systemctl enable NetworkManager
+    systemctl enable NetworkManager
 
 #Adding user
     read -p "What user you want to add: " user
     useradd -m -G wheel -s /bin/bash $user
     echo "Please add a password for the user!"
     passwd $user
-    sudo sed -i '/^# %wheel ALL=(ALL:ALL) ALL/s/^# //' /etc/sudoers #Uncomments %wheel ALL=(ALL:ALL) ALL
-    sudo sed -i '/^# %wheel ALL=(ALL) ALL/s/^# //' /etc/sudoers #Uncomments %wheel ALL=(ALL) ALL
+    sed -i '/^# %wheel ALL=(ALL:ALL) ALL/s/^# //' /etc/sudoers #Uncomments %wheel ALL=(ALL:ALL) ALL
+    sed -i '/^# %wheel ALL=(ALL) ALL/s/^# //' /etc/sudoers #Uncomments %wheel ALL=(ALL) ALL
     #EDITOR="sed -i '/^# %wheel ALL=(ALL) ALL/s/^# //' " visudo
 
 #Installing systemd-boot
-    sudo bootctl install --esp-path=/boot --boot-path=/boot
+    bootctl install --esp-path=/boot --boot-path=/boot
 
 #Creating Loader Config
     echo "default arch" > /boot/loader/loader.conf
