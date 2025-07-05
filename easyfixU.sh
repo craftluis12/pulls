@@ -13,7 +13,7 @@ if [ "$option" == "help" ]; then
 
 elif [ "$option" == "up" ]; then
 #updating missing packages
-    sudo pacman -S konsole grub plasma-x11-session plasma-desktop efibootmgr network-manager-applet plasma-nm bluez bluez-utils wireless_tools dialog os-prober mtools dosfstools dolphin linux-headers keepass net-tools plasma-systemmonitor flameshot p7zip pavucontrol firefox discord kate htop noto-fonts-emoji go wget git onionshare yajl spotify-launcher --noconfirm
+    sudo pacman -S konsole grub plasma-x11-session plasma-meta efibootmgr network-manager-applet plasma-nm bluez bluez-utils wireless_tools dialog os-prober mtools dosfstools dolphin linux-headers keepass net-tools plasma-systemmonitor flameshot p7zip pavucontrol firefox discord kate htop noto-fonts-emoji go wget git onionshare yajl spotify-launcher --noconfirm
     exit 0
 
 elif [ "$option" == "arch" ]; then
@@ -92,7 +92,7 @@ elif [ "$option" == "pack" ]; then
     pacman -S bashtop ufw --noconfirm
     
 #installing default packages
-    pacman -S konsole grub plasma-x11-session plasma-desktop efibootmgr network-manager-applet plasma-nm bluez bluez-utils wireless_tools dialog os-prober mtools dosfstools dolphin linux-headers keepass net-tools plasma-systemmonitor flameshot p7zip pavucontrol firefox discord kate htop noto-fonts-emoji go wget git onionshare yajl spotify-launcher --noconfirm
+    pacman -S konsole grub plasma-x11-session plasma-meta efibootmgr network-manager-applet plasma-nm bluez bluez-utils wireless_tools dialog os-prober mtools dosfstools dolphin linux-headers keepass net-tools plasma-systemmonitor flameshot p7zip pavucontrol firefox discord kate htop noto-fonts-emoji go wget git onionshare yajl spotify-launcher --noconfirm
 
 #enabling network
     systemctl enable NetworkManager
