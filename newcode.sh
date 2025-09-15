@@ -159,6 +159,10 @@ case "$option" in
         echo "default arch" > /boot/loader/loader.conf
         echo "timeout 3" >> /boot/loader/loader.conf
         echo "editor no" >> /boot/loader/loader.conf
+        
+        # Ask user for root partition inside chroot
+        lsblk
+        read -rp "Enter the root partition that was encrypted (e.g. /dev/sda3 or /dev/nvme0n1p3): " ROOT_PART
 
         # Detect root UUID
         cryptuuid=$(blkid -s UUID -o value "$ROOT_PART")
@@ -200,3 +204,4 @@ case "$option" in
         echo "=== Setup Complete ==="
         echo "Exit chroot, unmount partitions, and reboot into your new system!"
         ;;
+esac
