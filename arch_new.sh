@@ -213,73 +213,74 @@ case "$option" in
         cd yay
         makepkg -si --noconfirm
         cd /
+        yay -Syu --noconfirm
 
                 # === Recon & Discovery ===
         #yay -S amass
-        yay -S subfinder
+        yay -S subfinder --noconfirm
         #https://github.com/projectdiscovery/subfinder
         #go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
-        yay -S assetfinder
+        yay -S assetfinder --noconfirm
         #https://github.com/tomnomnom/assetfinder
-        yay -S masscan
+        yay -S masscan --noconfirm
         #https://github.com/robertdavidgraham/masscan
-        yay -S nmap
+        yay -S nmap --noconfirm
         #https://nmap.org/download.html
-        yay -S netcat
+        yay -S netcat --noconfirm
         #https://netcat.sourceforge.net/
 
                 # === Web Testing ===
-        yay -S ffuf
+        yay -S ffuf --noconfirm
         #https://github.com/ffuf/ffuf
         #go install github.com/ffuf/ffuf/v2@latest
-        yay -S gobuster
+        yay -S gobuster --noconfirm
         #https://github.com/OJ/gobuster
         #go install github.com/OJ/gobuster/v3@latest
-        yay -S nikto
+        yay -S nikto --noconfirm
         #https://cirt.net/nikto/
-        yay -S sqlmap
+        yay -S sqlmap --noconfirm
         #https://sqlmap.org/
-        yay -S wpscan
+        yay -S wpscan --noconfirm
         #https://github.com/wpscanteam/wpscan
-        yay -S burpsuite
-        yay -S zaproxy
+        yay -S burpsuite --noconfirm
+        yay -S zaproxy --noconfirm
         #https://www.zaproxy.org/download/
 
                 # === Wordlists & Payloads ===
-        yay -S SecLists
+        yay -S SecLists --noconfirm
         #https://github.com/danielmiessler/SecLists
         #git clone https://github.com/danielmiessler/SecLists.git
-        yay -S rockyou
+        yay -S rockyou --noconfirm
         #https://github.com/RykerWilder/rockyou.txt
 
                 # === Exploitation & Framewroks ===
-        yay -S metasploit
+        yay -S metasploit --noconfirm
         #https://www.metasploit.com/
-        yay -S beef-xss
+        yay -S beef-xss --noconfirm
         #https://github.com/beefproject/beef
 
                 # === Password-Cracking / Hash Tool ===
-        yay -S hashcat
+        yay -S hashcat --noconfirm
         #https://github.com/hashcat/hashcat
-        yay -S john
+        yay -S john --noconfirm
         #https://github.com/openwall/john
-        yay -S hydra
+        yay -S hydra --noconfirm
         #https://github.com/vanhauser-thc/thc-hydra
 
                 # === Network / Proxy ===
-        yay -S wireshark-qt
+        yay -S wireshark-qt --noconfirm
         #https://nmap.org/download.html
-        yay -S tcpdump
+        yay -S tcpdump --noconfirm
         #https://github.com/the-tcpdump-group/tcpdump
-        yay -S mitmproxy
+        yay -S mitmproxy --noconfirm
         #https://github.com/mitmproxy/mitmproxy
-        yay -S bettercap
+        yay -S bettercap --noconfirm
         #https://github.com/bettercap/bettercap
 
                 # === Wireless / Bluetooth ===
-        yay -S aircrack-ng
+        yay -S aircrack-ng --noconfirm
         #https://www.aircrack-ng.org/
-        yay -S reaver
+        yay -S reaver --noconfirm
         #https://github.com/t6x/reaver-wps-fork-t6x
         ;;
 esac
