@@ -13,6 +13,7 @@ show_help() {
     echo "  help   - Show this help message"
     echo "  arch   - Run installer from live USB (partition + encrypt + pacstrap)"
     echo "  pack   - Run inside chroot (/mnt) to finish setup"
+    echo "  tools   - Run after system is fully completed"
 }
 
 
@@ -204,5 +205,82 @@ case "$option" in
 
         echo "=== Setup Complete ==="
         echo "Exit chroot, unmount partitions, and reboot into your new system!"
+        ;;
+
+    tools)
+                # === Installing YaY ===
+        cd /tmp
+        git clone https://aur.archlinux.org/yay.git
+        cd yay
+        makepkg -si --noconfirm
+        cd /
+
+                # === Recon & Discovery ===
+        #yay -S amass
+        yay -S subfinder
+        #https://github.com/projectdiscovery/subfinder
+        #go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
+        yay -S assetfinder
+        #https://github.com/tomnomnom/assetfinder
+        yay -S masscan
+        #https://github.com/robertdavidgraham/masscan
+        yay -S nmap
+        #https://nmap.org/download.html
+        yay -S netcat
+        #https://netcat.sourceforge.net/
+
+                # === Web Testing ===
+        yay -S ffuf
+        #https://github.com/ffuf/ffuf
+        #go install github.com/ffuf/ffuf/v2@latest
+        yay -S gobuster
+        #https://github.com/OJ/gobuster
+        #go install github.com/OJ/gobuster/v3@latest
+        yay -S nikto
+        #https://cirt.net/nikto/
+        yay -S sqlmap
+        #https://sqlmap.org/
+        yay -S wpscan
+        #https://github.com/wpscanteam/wpscan
+        yay -S burpsuite
+        yay -S zaproxy
+        #https://www.zaproxy.org/download/
+
+                # === Wordlists & Payloads ===
+        yay -S SecLists
+        #https://github.com/danielmiessler/SecLists
+        #git clone https://github.com/danielmiessler/SecLists.git
+        yay -S rockyou
+        #https://github.com/RykerWilder/rockyou.txt
+
+                # === Exploitation & Framewroks ===
+        yay -S metasploit
+        #https://www.metasploit.com/
+        yay -S beef-xss
+        #https://github.com/beefproject/beef
+
+                # === Password-Cracking / Hash Tool ===
+        yay -S hashcat
+        #https://github.com/hashcat/hashcat
+        yay -S john
+        #https://github.com/openwall/john
+        yay -S hydra
+        #https://github.com/vanhauser-thc/thc-hydra
+
+                # === Network / Proxy ===
+        yay -S wireshark-qt
+        #https://nmap.org/download.html
+        yay -S tcpdump
+        #https://github.com/the-tcpdump-group/tcpdump
+        yay -S mitmproxy
+        #https://github.com/mitmproxy/mitmproxy
+        yay -S bettercap
+        #https://github.com/bettercap/bettercap
+
+                # === Wireless / Bluetooth ===
+        yay -S aircrack-ng
+        #https://www.aircrack-ng.org/
+        yay -S reaver
+        #https://github.com/t6x/reaver-wps-fork-t6x
         ;;
 esac
