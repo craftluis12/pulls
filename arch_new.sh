@@ -215,6 +215,8 @@ case "$option" in
         cd /
         yay -Syu --noconfirm
 
+        yay -S virtualbox --noconfirm
+        
                 # === Recon & Discovery ===
         #yay -S amass
         yay -S subfinder --noconfirm
