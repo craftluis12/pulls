@@ -216,6 +216,7 @@ case "$option" in
         yay -Syu --noconfirm
 
         yay -S virtualbox --noconfirm
+        yay -S cherrytree --noconfirm
         
                 # === Recon & Discovery ===
         #yay -S amass
