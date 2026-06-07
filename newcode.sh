@@ -203,7 +203,7 @@ case "$option" in
 
         # SSH Setup
         pacman -S openssh --noconfirm
-        systemctl enablesshd
+        systemctl enable sshd
         systemctl start sshd
 
         # Setup Enviroment
