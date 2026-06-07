@@ -106,6 +106,12 @@ case "$option" in
 
                 echo "=== Installing Base System ==="
 
+        # Key Re-fresh
+        pacman -Sy archlinux-keyring
+        pacman-key --init
+        pacman-key --populate archlinux
+        pacman-key --refresh-keys
+        
         # Install essential packages
         pacstrap /mnt base linux linux-firmware sof-firmware base-devel nano networkmanager
 
