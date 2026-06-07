@@ -201,6 +201,10 @@ case "$option" in
         # Setup Default Packages
         pacman -S konsole grub plasma-x11-session plasma-meta efibootmgr network-manager-applet plasma-nm bluez bluez-utils wireless_tools dialog os-prober mtools dosfstools dolphin linux-headers keepass net-tools plasma-systemmonitor flameshot p7zip pavucontrol firefox discord kate htop noto-fonts-emoji go wget git onionshare yajl spotify-launcher --noconfirm
 
+        # SSH Setup
+        pacman -S openssh --noconfirm
+        systemctl enablesshd
+        systemctl start sshd
 
         # Setup Enviroment
         pacman -S xorg plasma-desktop sddm fish --noconfirm
